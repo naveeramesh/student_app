@@ -8,8 +8,8 @@ import 'package:student_app/common/process_data.dart';
 import 'package:student_app/theme/theme.dart';
 import 'package:student_app/theme/theme_notifier.dart';
 
-String initScreen, classFound;
-int onBoard;
+late String initScreen = '', classFound = '';
+int? onBoard = 0;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
   Widget route() {
     if (onBoard == 0 || onBoard == null) {
       return OnBoardingPage();
-    } else if (initScreen == '' || initScreen == null) {
+    } else if (initScreen == '') {
       return LoginPage();
     } else {
       return ProcessData(initScreen, classFound);
@@ -76,9 +76,10 @@ class _MyAppState extends State<MyApp> {
     var prefs = await SharedPreferences.getInstance();
     onBoard = prefs.getInt('onBoard');
     await prefs.setInt('onBoard', 1);
+    initScreen = '';
 
-    initScreen = prefs.getString('username');
-    classFound = prefs.getString('foundedclass');
+    initScreen = prefs.getString('username')?? '';
+    classFound = prefs.getString('foundedclass')??'';
     return true;
   }
 }

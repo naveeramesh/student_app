@@ -13,24 +13,24 @@ class UploadProfile extends StatefulWidget {
 }
 
 class _UploadProfile extends State<UploadProfile> {
-  String id,
-      name,
-      rollNo,
-      regNo,
-      email,
-      phoneNo,
-      blood,
-      batch,
-      dept,
-      address,
-      dob;
-  File _image;
-  String cls;
+   String id='',
+      name='',
+      rollNo='',
+      regNo='',
+      email='',
+      phoneNo='',
+      blood='',
+      batch='',
+      dept='',
+      address='',
+      dob='';
+  late File _image;
+  String cls='';
 
-  String profileUrl;
+  String profileUrl='';
   final picker = ImagePicker();
   final reference = FirebaseFirestore.instance;
-  String dep, yer;
+  String dep='', yer='';
   List<Contents> year = [];
   List<Contents> department = [];
   List<Contents> classes = [];
@@ -68,7 +68,7 @@ class _UploadProfile extends State<UploadProfile> {
           source: ImageSource.gallery, maxWidth: 200.0, maxHeight: 200.0);
 
       setState(() {
-        _image = File(image.path);
+        _image = File(image!.path);
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -79,7 +79,7 @@ class _UploadProfile extends State<UploadProfile> {
   }
 
   Future upload(BuildContext context) async {
-    if (formKey.currentState.validate()) {
+    if (formKey.currentState!.validate()) {
       try {
         var firebaseStorageRef =
             FirebaseStorage.instance.ref().child('profile/$batch/$dept/$regNo');
@@ -117,9 +117,9 @@ class _UploadProfile extends State<UploadProfile> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Submitted Successfully'),
         ));
-        formKey.currentState.reset();
+        formKey.currentState!.reset();
         setState(() {
-          _image = null;
+         
         });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -149,14 +149,14 @@ class _UploadProfile extends State<UploadProfile> {
         filled: true,
       ),
       maxLength: 20,
-      validator: (String value) {
-        if (value.isEmpty) {
+      validator: (String? value) {
+        if (value!.isEmpty) {
           return 'Name required';
         }
         return null;
       },
-      onSaved: (String value) {
-        name = value;
+      onSaved: (String? value) {
+        name = value!;
       },
     );
   }
@@ -175,14 +175,14 @@ class _UploadProfile extends State<UploadProfile> {
         filled: true,
       ),
       maxLength: 8,
-      validator: (String value) {
-        if (value.isEmpty) {
+      validator: (String? value) {
+        if (value!.isEmpty) {
           return 'Roll Number Required';
         }
         return null;
       },
-      onSaved: (String value) {
-        rollNo = value;
+      onSaved: (String? value) {
+        rollNo = value!;
       },
     );
   }
@@ -202,14 +202,14 @@ class _UploadProfile extends State<UploadProfile> {
         filled: true,
       ),
       maxLength: 12,
-      validator: (String value) {
-        if (value.isEmpty) {
+      validator: (String? value) {
+        if (value!.isEmpty) {
           return 'Register Number Required';
         }
         return null;
       },
-      onSaved: (String value) {
-        regNo = value;
+      onSaved: (String? value) {
+        regNo = value!;
       },
     );
   }
@@ -227,8 +227,8 @@ class _UploadProfile extends State<UploadProfile> {
         contentPadding: EdgeInsets.all(15.0),
         filled: true,
       ),
-      validator: (String value) {
-        if (value.isEmpty) {
+      validator: (String? value) {
+        if (value!.isEmpty) {
           return 'Email Required';
         }
         if (!RegExp(
@@ -238,8 +238,8 @@ class _UploadProfile extends State<UploadProfile> {
         }
         return null;
       },
-      onSaved: (String value) {
-        email = value;
+      onSaved: (String? value) {
+        email = value!;
       },
     );
   }
@@ -259,14 +259,14 @@ class _UploadProfile extends State<UploadProfile> {
         filled: true,
       ),
       maxLength: 10,
-      validator: (String value) {
-        if (value.isEmpty) {
+      validator: (String? value) {
+        if (value!.isEmpty) {
           return 'Phone Number Required';
         }
         return null;
       },
-      onSaved: (String value) {
-        phoneNo = value;
+      onSaved: (String? value) {
+        phoneNo = value!;
       },
     );
   }
@@ -284,14 +284,14 @@ class _UploadProfile extends State<UploadProfile> {
         contentPadding: EdgeInsets.all(15.0),
         filled: true,
       ),
-      validator: (String value) {
-        if (value.isEmpty) {
+      validator: ( value) {
+        if (value!.isEmpty) {
           return 'Blood Group Required';
         }
         return null;
       },
-      onSaved: (String value) {
-        blood = value.toUpperCase();
+      onSaved: ( value) {
+        blood = value!.toUpperCase();
       },
     );
   }
@@ -299,9 +299,9 @@ class _UploadProfile extends State<UploadProfile> {
   Widget buildBatchDropDown() {
     return DropdownButton(
       hint: const Text('select year'),
-      onChanged: (String name) {
+      onChanged: ( name) {
         setState(() {
-          batch = name;
+          batch = name.toString();
         });
       },
       value: batch,
@@ -319,7 +319,7 @@ class _UploadProfile extends State<UploadProfile> {
       hint: const Text('select department'),
       onChanged: (name) {
         setState(() {
-          dept = name;
+          dept = name.toString();
         });
       },
       value: dept,
@@ -346,14 +346,14 @@ class _UploadProfile extends State<UploadProfile> {
         filled: true,
       ),
       maxLines: 8,
-      validator: (String value) {
-        if (value.isEmpty) {
+      validator: (value) {
+        if (value!.isEmpty) {
           return 'Address Required';
         }
         return null;
       },
-      onSaved: (String value) {
-        address = value;
+      onSaved: (value) {
+        address = value!;
       },
     );
   }
@@ -372,13 +372,13 @@ class _UploadProfile extends State<UploadProfile> {
         contentPadding: EdgeInsets.all(15.0),
         filled: true,
       ),
-      validator: (String value) {
-        if (value.isEmpty) {
+      validator: ( value) {
+        if (value!.isEmpty) {
           return 'Address Required';
         }
         return null;
       },
-      onSaved: (String value) {
+      onSaved: (value) {
         dob = value.toString();
       },
     );
@@ -410,7 +410,7 @@ class _UploadProfile extends State<UploadProfile> {
           hint: const Text('select class'),
           onChanged: (name) {
             setState(() {
-              cls = name;
+              cls = name.toString();
             });
           },
           value: cls,
@@ -516,7 +516,7 @@ class _UploadProfile extends State<UploadProfile> {
                   const SizedBox(height: 10),
                   OutlinedButton(
                     onPressed: () {
-                      formKey.currentState.save();
+                      formKey.currentState!.save();
                       upload(context);
                     },
                     child: const Text('Submit',

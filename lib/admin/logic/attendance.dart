@@ -14,8 +14,8 @@ class Attendance extends StatefulWidget {
 }
 
 class _AttendanceState extends State<Attendance> {
-  String cls;
-  String hasDate;
+  String cls='';
+  String hasDate='';
   List<Contents> classes = [];
   List<Item> item = [];
   DatabaseReference obj = DatabaseReference();
@@ -196,7 +196,7 @@ class _AttendanceState extends State<Attendance> {
                     hint: const Text('select class'),
                     onChanged: (name) {
                       setState(() {
-                        cls = name;
+                        cls = name.toString();
                         _getStudent();
                       });
                     },

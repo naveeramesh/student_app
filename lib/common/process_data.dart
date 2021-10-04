@@ -15,7 +15,7 @@ class ProcessData extends StatefulWidget {
 
 class _ProcessDataState extends State<ProcessData> {
   final reference = FirebaseFirestore.instance;
-  String _batch, _dept;
+  String _batch='', _dept='';
   List details = [];
   final Future<SharedPreferences> _preference = SharedPreferences.getInstance();
 
@@ -79,18 +79,18 @@ class _ProcessDataState extends State<ProcessData> {
         .snapshots()
         .listen((event) async {
       details
-        ..add(event.data()['Name'])
-        ..add(event.data()['Rollno'])
-        ..add(event.data()['Regno'])
-        ..add(event.data()['PhoneNo'])
-        ..add(event.data()['DOB'])
-        ..add(event.data()['Batch'])
-        ..add(event.data()['Email'])
-        ..add(event.data()['BloodGroup'])
-        ..add(event.data()['Department'])
-        ..add(event.data()['Address'])
-        ..add(event.data()['ProfileUrl'])
-        ..add(event.data()['Class']);
+        ..add(event.data()!['Name'])
+        ..add(event.data()!['Rollno'])
+        ..add(event.data()!['Regno'])
+        ..add(event.data()!['PhoneNo'])
+        ..add(event.data()!['DOB'])
+        ..add(event.data()!['Batch'])
+        ..add(event.data()!['Email'])
+        ..add(event.data()!['BloodGroup'])
+        ..add(event.data()!['Department'])
+        ..add(event.data()!['Address'])
+        ..add(event.data()!['ProfileUrl'])
+        ..add(event.data()!['Class']);
 
       reference
           .collection('collage')

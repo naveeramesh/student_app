@@ -16,7 +16,7 @@ class GetDetails extends StatefulWidget {
 class _GetDetailsState extends State<GetDetails> {
   List<Contents> year = [];
   List<Contents> department = [];
-  String yer, dep, cls;
+  String yer='', dep='', cls='';
   DatabaseReference obj = DatabaseReference();
 
   @override
@@ -58,7 +58,7 @@ class _GetDetailsState extends State<GetDetails> {
           hint: const Text('select year'),
           onChanged: (name) {
             setState(() {
-              yer = name;
+              yer = name.toString();
             });
           },
           value: yer,
@@ -71,9 +71,9 @@ class _GetDetailsState extends State<GetDetails> {
         ),
         DropdownButton(
           hint: const Text('select department'),
-          onChanged: (String name) {
+          onChanged: ( name) {
             setState(() {
-              dep = name;
+              dep = name.toString();
             });
           },
           value: dep,

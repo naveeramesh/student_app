@@ -18,7 +18,7 @@ class _GradeState extends State<Grade> {
   String url = 'https://coe1.annauniv.edu/home/';
   bool isLoading = true;
   final _key = UniqueKey();
-  WebViewController _controller;
+  late WebViewController _controller;
 
   @override
   void initState() {

@@ -19,10 +19,10 @@ class _DashboardState extends State<Dashboard> {
   final references = FirebaseFirestore.instance;
 
   List<Contents> workingDays = [];
-  int presentDays;
+  int presentDays=0;
   double percentage = 0.0;
-  String displayPercent;
-  Future percents;
+  String displayPercent='';
+  late Future percents;
 
   Future<bool> getDays() async {
     var ref1 = references
@@ -35,7 +35,7 @@ class _DashboardState extends State<Dashboard> {
     ref1.snapshots().listen((event) {
       setState(() {
         percentage =
-            double.parse(event.data()['total'].toString()) / widget.days;
+            double.parse(event.data()!['total'].toString()) / widget.days;
         displayPercent =
             NumberFormat('##.0#', 'en_US').format(percentage * 100);
       });

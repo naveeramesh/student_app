@@ -19,8 +19,8 @@ class StudentBottomNav extends StatefulWidget {
 class _StudentBottomNavState extends State<StudentBottomNav> {
  
   int _currentIndex = 0;
-  List<String> details;
-  Future<List> getList;
+   List<String> details=[];
+   late Future<List> getList;
 
 
   Future<bool> _onBackPressed() async{
@@ -66,7 +66,7 @@ class _StudentBottomNavState extends State<StudentBottomNav> {
       Grade(details),
       Profile(details),
       Notes(),
-      const SettingsPage(),
+       SettingsPage(),
     ];
   }
 
@@ -76,7 +76,7 @@ class _StudentBottomNavState extends State<StudentBottomNav> {
     details.clear();
   }
 
-  List<Widget> _children;
+  late List<Widget> _children;
 
   void onTappedBar(int index) {
     setState(() {

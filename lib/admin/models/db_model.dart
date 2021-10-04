@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Contents {
   String name;
-  String key;
+  String key='';
   bool isSelected = false;
 
   Contents(this.name);
@@ -16,7 +16,7 @@ class Item {
   String name;
   String rollNo;
   bool isSelected = false;
-  String key;
+  String key='';
 
   Item(this.name, this.rollNo);
 

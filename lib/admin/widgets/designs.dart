@@ -29,12 +29,12 @@ class _DesignsState extends State<Designs> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const AddDetails('year', null)));
+                  builder: (context) => const AddDetails('year', '')));
         } else if (widget.text == 'Add dep') {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const AddDetails(null, 'department')));
+                  builder: (context) => const AddDetails('', 'department')));
         } else if (widget.text == 'Delete students') {
           showDialog(
               context: context,
@@ -51,12 +51,12 @@ class _DesignsState extends State<Designs> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Attendance(null, null, widget.text)));
+                  builder: (context) => Attendance('', '', widget.text)));
         } else if (widget.text == 'Delete year') {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Attendance(null, null, widget.text)));
+                  builder: (context) => Attendance('', '', widget.text)));
         }
       },
       child: Card(

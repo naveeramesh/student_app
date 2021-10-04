@@ -15,7 +15,7 @@ class UploadNotes extends StatefulWidget {
 }
 
 class UploadNotesState extends State<UploadNotes> {
-  File _file;
+  late File _file;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final List<UploadTask> _tasks = <UploadTask>[];
 
@@ -23,7 +23,7 @@ class UploadNotesState extends State<UploadNotes> {
     var result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      _file = File(result.files.single.path);
+      _file = File(result.files.single.path!);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -106,7 +106,7 @@ class UploadNotesState extends State<UploadNotes> {
 class UploadTaskListTile extends StatelessWidget {
   final UploadTask task;
 
-  UploadTaskListTile({Key key, this.task}) : super(key: key);
+  UploadTaskListTile({Key? key, required this.task}) : super(key: key);
 
   
 

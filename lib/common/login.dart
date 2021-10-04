@@ -14,7 +14,7 @@ import '../theme/theme.dart' as theme;
 
 class LoginPage extends StatefulWidget {
   /// default
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -46,11 +46,11 @@ class _LoginPageState extends State<LoginPage>
   TextEditingController signupPasswordController = TextEditingController();
   TextEditingController signupConfirmPasswordController =
       TextEditingController();
-  PageController _pageController;
+  PageController _pageController=PageController(keepPage: true);
 
   //FirebaseReferences and its variables
   final reference = FirebaseFirestore.instance;
-  CollectionReference reference1;
+  late CollectionReference reference1;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //Objects
@@ -64,23 +64,23 @@ class _LoginPageState extends State<LoginPage>
   //Variables
   bool _obscureTextLogin = true;
   bool _obscureTextSignup = true;
-  bool valid;
+  bool valid=false;
   Color left = Colors.black;
   Color right = Colors.white;
-  String _batch,
-      _dept,
-      _regno,
-      password,
-      givenkey,
-      givenuser,
-      givenpass,
-      foundclass,
-      initialname,
-      pword;
+  String _batch='',
+      _dept='',
+      _regno='',
+      password='',
+      givenkey='',
+      givenuser='',
+      givenpass='',
+      foundclass='',
+      initialname='',
+      pword='';
 
   void processdata() {
-    ukey.currentState.save();
-    passkey.currentState.save();
+    ukey.currentState!.save();
+    passkey.currentState!.save();
     formValidation();
   }
 
@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage>
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
           overscroll.disallowGlow();
-          return null;
+          return false;
         },
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -254,7 +254,7 @@ class _LoginPageState extends State<LoginPage>
     myFocusNodePassword.dispose();
     myFocusNodeEmail.dispose();
     myFocusNodeName.dispose();
-    _pageController?.dispose();
+    _pageController.dispose();
 
     super.dispose();
   }
@@ -263,16 +263,17 @@ class _LoginPageState extends State<LoginPage>
   void initState() {
     super.initState();
     processKey();
-    getUser().then((user) {
+    User? user =getUser();
+   
       if (user != null) {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => AdminBottomNav()),
         );
       }
-    });
+    }
 
-    _pageController = PageController(keepPage: true);
-  }
+    
+  
 
   void invalidSnackBar(String value) {
     FocusScope.of(context).requestFocus(FocusNode());
@@ -393,15 +394,15 @@ class _LoginPageState extends State<LoginPage>
                               hintText: 'Register No.',
                               hintStyle: TextStyle(fontSize: 17.0),
                             ),
-                            validator: (String input) {
-                              if (!RegExp(r'^[0-9]{12}$').hasMatch(input)) {
+                            validator: ( input) {
+                              if (!RegExp(r'^[0-9]{12}$').hasMatch(input!)) {
                                 return 'Invalid Details';
                               }
 
                               return null;
                             },
-                            onSaved: (String input) {
-                              initialname = input;
+                            onSaved: ( input) {
+                              initialname = input!;
                             },
                           ),
                         ),
@@ -438,11 +439,11 @@ class _LoginPageState extends State<LoginPage>
                                 ),
                               ),
                             ),
-                            onSaved: (String input) {
+                            onSaved: ( input) {
                               pword = input.toString();
                             },
-                            validator: (String input) {
-                              if (!RegExp(r'^[0-9/-]{10}$').hasMatch(input)) {
+                            validator: ( input) {
+                              if (!RegExp(r'^[0-9/-]{10}$').hasMatch(input!)) {
                                 return 'Password is incorrect';
                               }
 
@@ -485,8 +486,8 @@ class _LoginPageState extends State<LoginPage>
                   highlightColor: Colors.transparent,
                   splashColor: theme.GradientColors.loginGradientEnd,
                   onPressed: () async {
-                    if (ukey.currentState.validate()) {
-                      if (passkey.currentState.validate()) {
+                    if (ukey.currentState!.validate()) {
+                      if (passkey.currentState!.validate()) {
                         processdata();
                       }
                     }
@@ -534,16 +535,16 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
-  Future<User> getUser() async {
+  User? getUser()  {
     return _auth.currentUser;
   }
 
   void adminAuth() async {
-    User user;
+    User? user=getUser();
     try {
       user = (await _auth.signInWithEmailAndPassword(
               email: givenuser, password: givenpass))
-          .user;
+          .user!;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -551,7 +552,8 @@ class _LoginPageState extends State<LoginPage>
         ),
       );
     } finally {
-      if (user != null) {
+      
+      if ( user!=null) {
         await Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => AdminBottomNav()),
         );
@@ -596,7 +598,7 @@ class _LoginPageState extends State<LoginPage>
                                   RegExp(r'\s\b|\b\s'))
                             ],
                             onSaved: (input) async {
-                              givenkey = input;
+                              givenkey = input!;
                             },
                             style: const TextStyle(fontSize: 16.0),
                             decoration: const InputDecoration(
@@ -607,8 +609,8 @@ class _LoginPageState extends State<LoginPage>
                               hintText: 'Key',
                               hintStyle: TextStyle(fontSize: 16.0),
                             ),
-                            validator: (String input) {
-                              if (input.length < 5) {
+                            validator: ( input) {
+                              if (input!.length < 5) {
                                 return 'key length must be greater than 5';
                               }
                               return null;
@@ -648,8 +650,8 @@ class _LoginPageState extends State<LoginPage>
                               hintText: 'Email Address',
                               hintStyle: TextStyle(fontSize: 16.0),
                             ),
-                            validator: (String input) {
-                              if (input.isEmpty) {
+                            validator: ( input) {
+                              if (input!.isEmpty) {
                                 return 'Email Required';
                               }
                               if (!RegExp(
@@ -738,11 +740,11 @@ class _LoginPageState extends State<LoginPage>
                   splashColor: theme.GradientColors.loginGradientEnd,
                   onPressed: () async {
                     processKey();
-                    adminkey.currentState.save();
-                    adminuserkey.currentState.save();
-                    adminpasskey.currentState.save();
-                    if (adminkey.currentState.validate()) {
-                      if (adminuserkey.currentState.validate()) {
+                    adminkey.currentState!.save();
+                    adminuserkey.currentState!.save();
+                    adminpasskey.currentState!.save();
+                    if (adminkey.currentState!.validate()) {
+                      if (adminuserkey.currentState!.validate()) {
                         validateKey();
                       }
                     }
@@ -773,7 +775,7 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void _onSignUpButtonPress() {
-    _pageController?.animateToPage(1,
+    _pageController.animateToPage(1,
         duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
   }
 
@@ -791,12 +793,13 @@ class _LoginPageState extends State<LoginPage>
 }
 
 class TabIndicationPainter extends CustomPainter {
-  Paint painter;
+  final  Paint painter = Paint()
+      ..color = Color(0xFFFFFFFF)
+      ..style = PaintingStyle.fill;
   final double dxTarget;
   final double dxEntry;
   final double radius;
   final double dy;
-
   final PageController pageController;
 
   TabIndicationPainter(
@@ -804,12 +807,8 @@ class TabIndicationPainter extends CustomPainter {
       this.dxEntry = 25.0,
       this.radius = 21.0,
       this.dy = 25.0,
-      this.pageController})
-      : super(repaint: pageController) {
-    painter = Paint()
-      ..color = Color(0xFFFFFFFF)
-      ..style = PaintingStyle.fill;
-  }
+      required this.pageController})
+      : super(repaint: pageController) ;
 
   @override
   void paint(Canvas canvas, Size size) {
